@@ -10,8 +10,8 @@ import com.github.NeRdTheNed.jqmage.util.Util;
 public class QmageImage {
     public static final int COMPRESSION_TYPE_RLE = 0x06;
 
-    // TODO I don't actually know the correct bit
-    public static final int FLAG_COLOR_TABLE = 0b00110000;
+    public static final int FLAG_PREMULTIPLIED = 0b00100000;
+    public static final int FLAG_COLOR_TABLE   = 0b00010000;
 
     char firstSig;
     char secondSig;
