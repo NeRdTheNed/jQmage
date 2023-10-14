@@ -127,13 +127,15 @@ public class QmageImage {
         // Read stream marker
         final byte streamMarker1 = (byte)(is.read() & 0xff);
 
-        if (streamMarker1 != 0xFF) {
+        if (streamMarker1 != (byte) 0xFF) {
+            System.out.println("Bad stream marker 1, was " + streamMarker1);
             return false;
         }
 
         final byte streamMarker2 = (byte)(is.read() & 0xff);
 
         if (streamMarker2 != 0x00) {
+            System.out.println("Bad stream marker 2, was " + streamMarker2);
             return false;
         }
 
@@ -156,13 +158,15 @@ public class QmageImage {
         // Read end of stream marker
         final byte endStreamMarker1 = (byte)(is.read() & 0xff);
 
-        if (endStreamMarker1 != 0xFF) {
+        if (endStreamMarker1 != (byte) 0xFF) {
+            System.out.println("Bad end stream marker 1, was " + endStreamMarker1);
             return false;
         }
 
         final byte endStreamMarker2 = (byte)(is.read() & 0xff);
 
         if (endStreamMarker2 != 0x00) {
+            System.out.println("Bad end stream marker 2, was " + endStreamMarker2);
             return false;
         }
 
