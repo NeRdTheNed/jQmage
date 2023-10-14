@@ -1,8 +1,11 @@
 package com.github.NeRdTheNed.jqmage.cmd;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
+
+import com.github.NeRdTheNed.jqmage.format.QmageImage;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -14,6 +17,12 @@ class PrintInfo implements Callable<Integer> {
     private Path inputFile;
 
     private static boolean printInfo(final Path inputFile) throws IOException {
+        final QmageImage image = new QmageImage();
+
+        try (FileInputStream fis = new FileInputStream(inputFile.toFile())) {
+            image.read(fis);
+        }
+
         // TODO Printing logic
         return false;
     }

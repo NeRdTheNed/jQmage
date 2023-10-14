@@ -1,8 +1,11 @@
 package com.github.NeRdTheNed.jqmage.cmd;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
+
+import com.github.NeRdTheNed.jqmage.format.QmageImage;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -17,6 +20,12 @@ class ConvertToPNG implements Callable<Integer> {
     private Path outputFile;
 
     private static boolean convert(final Path inputFile, final Path outputFile) throws IOException {
+        final QmageImage image = new QmageImage();
+
+        try (FileInputStream fis = new FileInputStream(inputFile.toFile())) {
+            image.read(fis);
+        }
+
         // TODO Conversion logic
         return false;
     }

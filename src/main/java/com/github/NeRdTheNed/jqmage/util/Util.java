@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.DataFormatException;
@@ -70,6 +72,24 @@ public class Util {
         return writeFile(new File(file), bytes);
     }
 
+    /** Read n bytes from the input stream */
+    public static byte[] readFromInputStream(final InputStream is, final long n) throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        for (int i = 0; i < n; i++) {
+            baos.write((byte) is.read());
+        }
+
+        return baos.toByteArray();
+    }
+
+    /* Convert a byte array to a short array */
+    public static short[] bytesToShort(final byte[] bytes) {
+        final short[] shorts = new short[bytes.length / 2];
+        ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts);
+        return shorts;
+    }
+
     /** Reads the contents of an input stream to a byte array */
     public static byte[] convertInputStreamToBytes(final InputStream in) throws IOException {
         final ByteArrayOutputStream result = new ByteArrayOutputStream();
@@ -84,11 +104,11 @@ public class Util {
     }
 
     /** Decompresses deflate compressed data */
-    public static byte[] decompressDeflate(final byte[] data) throws IOException {
+    public static byte[] decompressDeflate(final byte[] data, final boolean nowrap) throws IOException {
         Inflater inflater = null;
 
         try {
-            inflater = new Inflater(true);
+            inflater = new Inflater(nowrap);
             inflater.setInput(data);
             final ByteArrayOutputStream result = new ByteArrayOutputStream(data.length);
             final byte[] buffer = new byte[1024];
@@ -118,8 +138,8 @@ public class Util {
     }
 
     /** Compresses data to a deflate stream */
-    public static byte[] compressDeflate(final byte[] data) throws IOException {
-        final Deflater deflater = new Deflater(Deflater.BEST_COMPRESSION, true);
+    public static byte[] compressDeflate(final byte[] data, final boolean nowrap) throws IOException {
+        final Deflater deflater = new Deflater(Deflater.BEST_COMPRESSION, nowrap);
         deflater.setInput(data);
         deflater.finish();
 
